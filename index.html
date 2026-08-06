@@ -1,13 +1,45 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Keepers Archive</title>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>KEEPER OS</title>
+
 <link rel="stylesheet" href="css/style.css">
+
 </head>
-<body><div id="crt"><div id="out"></div><div id="term" class="hidden">
-<div>C:\KEEPERS\ARCHIVE&gt; <input id="pw" autocomplete="off"></div>
-<div id="msg"></div></div></div>
-<script>
-<script src="js/app.js"></script>
+
+<body>
+
+<div id="crt">
+
+<div id="terminal">
+
+<div id="output"></div>
+
+<div id="input-line" class="hidden">
+
+<span id="prompt">C:\KEEPERS></span>
+
+<input
+id="commandInput"
+type="text"
+autocomplete="off"
+spellcheck="false"
+autofocus>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="js/filesystem.js"></script>
+<script src="js/commands.js"></script>
+<script src="js/terminal.js"></script>
+<script src="js/boot.js"></script>
+
 </body>
 </html>
-</body></html>
