@@ -7,36 +7,7 @@
 <div>C:\KEEPERS\ARCHIVE&gt; <input id="pw" autocomplete="off"></div>
 <div id="msg"></div></div></div>
 <script>
-const lines=[
-"KEEPER OPERATING SYSTEM v1.13",
-"(C) 777 THE KEEPERS","",
-"Memory Check.............OK",
-"Archive Database.........FOUND",
-"Echo Registry............CORRUPTED",
-"Recovery Service.........ONLINE","",
-"WARNING:",
-"ECHO 001 STATUS UNKNOWN","","Press any key to continue..."
-];
-let i=0,o=document.getElementById("out");
-function typeLine(){
- if(i<lines.length){o.textContent+=lines[i++]+"\n";setTimeout(typeLine,350);}
-}
-typeLine();
-let ready=false;
-setTimeout(()=>ready=true,lines.length*350+100);
-document.addEventListener("keydown",e=>{
- if(ready && !document.getElementById("term").classList.contains("shown")){
-   o.textContent+="\nARCHIVE OFFLINE — AUTHORIZATION REQUIRED\n";
-   document.getElementById("term").className="shown";
-   document.getElementById("pw").focus();
- }
-});
-pw.onkeydown=e=>{
- if(e.key==="Enter"){
-  if(pw.value.trim().toUpperCase()==="K-113"){
-    msg.textContent="AUTHORIZATION ACCEPTED... RECOVERING ECHO 001...";
-    setTimeout(()=>location.href="chapters/chapter1.html",1800);
-  } else msg.textContent="ERROR 403 - INVALID AUTHORIZATION";
- }
-}
-</script></body></html>
+<script src="js/app.js"></script>
+</body>
+</html>
+</body></html>
