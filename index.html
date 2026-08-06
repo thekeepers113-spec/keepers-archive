@@ -1,64 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Keepers Archive</title>
-    <style>
-        body{
-            background:#000;
-            color:#00ff88;
-            font-family:monospace;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            height:100vh;
-            margin:0;
-        }
-
-        .box{
-            border:1px solid #00ff88;
-            padding:40px;
-            text-align:center;
-            width:500px;
-        }
-
-        input{
-            background:black;
-            color:#00ff88;
-            border:1px solid #00ff88;
-            padding:10px;
-            width:250px;
-        }
-
-        button{
-            margin-top:20px;
-            background:#00ff88;
-            color:black;
-            border:none;
-            padding:10px 20px;
-            cursor:pointer;
-            font-weight:bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Keepers Archive</title>
+<style>
+body{margin:0;background:#000;color:#66ff99;font-family:Courier New,monospace;display:flex;align-items:center;justify-content:center;height:100vh}
+#screen{width:min(900px,90vw);border:2px solid #66ff99;padding:24px;box-shadow:0 0 20px #0f5}
+#boot{white-space:pre-line;min-height:240px}
+#term{display:none}
+input{background:#000;color:#66ff99;border:none;outline:none;font:inherit;width:220px}
+</style>
 </head>
-
 <body>
-
-<div class="box">
-<h1>THE KEEPERS</h1>
-
-<p>ARCHIVE TERMINAL</p>
-
-<p>Authorization Required</p>
-
-<input placeholder="Enter Password">
-
-<br>
-
-<button>ACCESS</button>
-
+<div id="screen">
+<div id="boot"></div>
+<div id="term">
+<div>ARCHIVE OFFLINE — AUTHORIZATION REQUIRED</div><br>
+<div>C:\KEEPERS\ARCHIVE&gt; <input id="pw" autofocus></div>
+<div id="msg"></div>
 </div>
-
+</div>
+<script>
+const lines=[
+"INITIALIZING...",
+"LOADING KEEPER MAINFRAME...",
+"CHECKING ARCHIVE STATUS...",
+"LOADING ARCHIVE INDEX...",
+"",
+"ARCHIVE OFFLINE",
+"AUTHORIZATION REQUIRED"
+];
+let i=0,b=document.getElementById('boot');
+function next(){
+ if(i<lines.length){b.textContent+=lines[i++]+"\n";setTimeout(next,500);}
+ else{document.getElementById('term').style.display='block';}
+}
+next();
+document.getElementById('pw').addEventListener('keydown',e=>{
+ if(e.key==="Enter"){
+  const v=e.target.value.trim().toUpperCase();
+  const m=document.getElementById('msg');
+  if(v==="K-113"){
+    m.textContent="AUTHORIZATION ACCEPTED... RECOVERING ECHO 001...";
+    setTimeout(()=>location.href="chapters/chapter1.html",1800);
+  } else {
+    m.textContent="ERROR 403 - INVALID AUTHORIZATION";
+  }
+ }
+});
+</script>
 </body>
 </html>
