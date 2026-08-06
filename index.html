@@ -1,54 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>The Keepers Archive</title>
 <style>
-body{margin:0;background:#000;color:#66ff99;font-family:Courier New,monospace;display:flex;align-items:center;justify-content:center;height:100vh}
-#screen{width:min(900px,90vw);border:2px solid #66ff99;padding:24px;box-shadow:0 0 20px #0f5}
-#boot{white-space:pre-line;min-height:240px}
-#term{display:none}
-input{background:#000;color:#66ff99;border:none;outline:none;font:inherit;width:220px}
-</style>
-</head>
-<body>
-<div id="screen">
-<div id="boot"></div>
-<div id="term">
-<div>ARCHIVE OFFLINE — AUTHORIZATION REQUIRED</div><br>
-<div>C:\KEEPERS\ARCHIVE&gt; <input id="pw" autofocus></div>
-<div id="msg"></div>
-</div>
-</div>
+body{margin:0;background:#000;color:#33ff66;font:20px "Courier New",monospace;overflow:hidden}
+#crt{padding:30px;height:100vh;box-sizing:border-box;position:relative}
+#crt:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.03)0,rgba(255,255,255,.03)2px,transparent 2px,transparent 4px);pointer-events:none}
+#out{white-space:pre-wrap}
+.hidden{display:none}
+input{background:#000;border:none;color:#33ff66;font:inherit;outline:none;width:220px}
+.cursor{animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+</style></head>
+<body><div id="crt"><div id="out"></div><div id="term" class="hidden">
+<div>C:\KEEPERS\ARCHIVE&gt; <input id="pw" autocomplete="off"></div>
+<div id="msg"></div></div></div>
 <script>
 const lines=[
-"INITIALIZING...",
-"LOADING KEEPER MAINFRAME...",
-"CHECKING ARCHIVE STATUS...",
-"LOADING ARCHIVE INDEX...",
-"",
-"ARCHIVE OFFLINE",
-"AUTHORIZATION REQUIRED"
+"KEEPER OPERATING SYSTEM v1.13",
+"(C) 777 THE KEEPERS","",
+"Memory Check.............OK",
+"Archive Database.........FOUND",
+"Echo Registry............CORRUPTED",
+"Recovery Service.........ONLINE","",
+"WARNING:",
+"ECHO 001 STATUS UNKNOWN","","Press any key to continue..."
 ];
-let i=0,b=document.getElementById('boot');
-function next(){
- if(i<lines.length){b.textContent+=lines[i++]+"\n";setTimeout(next,500);}
- else{document.getElementById('term').style.display='block';}
+let i=0,o=document.getElementById("out");
+function typeLine(){
+ if(i<lines.length){o.textContent+=lines[i++]+"\n";setTimeout(typeLine,350);}
 }
-next();
-document.getElementById('pw').addEventListener('keydown',e=>{
- if(e.key==="Enter"){
-  const v=e.target.value.trim().toUpperCase();
-  const m=document.getElementById('msg');
-  if(v==="K-113"){
-    m.textContent="AUTHORIZATION ACCEPTED... RECOVERING ECHO 001...";
-    setTimeout(()=>location.href="chapters/chapter1.html",1800);
-  } else {
-    m.textContent="ERROR 403 - INVALID AUTHORIZATION";
-  }
+typeLine();
+let ready=false;
+setTimeout(()=>ready=true,lines.length*350+100);
+document.addEventListener("keydown",e=>{
+ if(ready && !document.getElementById("term").classList.contains("shown")){
+   o.textContent+="\nARCHIVE OFFLINE — AUTHORIZATION REQUIRED\n";
+   document.getElementById("term").className="shown";
+   document.getElementById("pw").focus();
  }
 });
-</script>
-</body>
-</html>
+pw.onkeydown=e=>{
+ if(e.key==="Enter"){
+  if(pw.value.trim().toUpperCase()==="K-113"){
+    msg.textContent="AUTHORIZATION ACCEPTED... RECOVERING ECHO 001...";
+    setTimeout(()=>location.href="chapters/chapter1.html",1800);
+  } else msg.textContent="ERROR 403 - INVALID AUTHORIZATION";
+ }
+}
+</script></body></html>
