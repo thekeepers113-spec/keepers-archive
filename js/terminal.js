@@ -74,6 +74,10 @@ function execute(commandLine) {
             COMMANDS.CLS();
             break;
 
+            case "SCAN":
+    print(COMMANDS.SCAN());
+    break;
+
         default:
             print("UNKNOWN COMMAND");
     }
