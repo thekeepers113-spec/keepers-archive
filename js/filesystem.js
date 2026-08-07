@@ -9,114 +9,51 @@ const FILESYSTEM = {
 
     root: {
 
-        "ECHO001.TXT": `
-====================================
-
-        ECHO 001
-
-====================================
-
-STATUS:
-MISSING
-
-LAST VERIFIED:
-UNKNOWN
-
-CLEARANCE:
-LEVEL 0
-
-------------------------------------
-
-Recovery Candidate Identified.
-
-The Echo is still transmitting.
-
-Signal integrity:
-17%
-
-The Keepers have preserved
-everything except the final location.
-
-Only Recovery Personnel may proceed.
-
-Type:
-
-OPEN LOG1.TXT
-
-`,
-
-        "LOG1.TXT": `
-====================================
-
-KEEPER LOG 001
-
-====================================
-
-Observation:
-
-Echo 001 disappeared without
-warning.
-
-No evidence of termination.
-
-No evidence of escape.
-
-Only silence remained.
-
-Signal fragments have been detected.
-
-Continue investigation.
-
-`,
-
         "README.TXT": `
-====================================
-
 KEEPER ARCHIVE
 
-====================================
+Recovery Terminal v1.13
 
-Useful Commands
+Type HELP for commands.
 
-HELP
-
-DIR
-
-OPEN filename
-
-STATUS
-
-WHOAMI
-
-CLS
-
-VER
-
+Echo 001 remains missing.
 `,
 
-        "CASEFILES": {
+        "STATUS.LOG": `
+ARCHIVE STATUS
 
-            "CASE01.TXT": `
-CASE FILE
+ONLINE
 
-Access Restricted
+AUTHORIZED USER:
+RECOVERY-01
 
-No readable information.
+SIGNAL:
+17%
 
-Further clearance required.
+LAST CONTACT:
+UNKNOWN
+`,
+
+        "ECHO001.TXT": `
+ECHO 001
+
+Classification:
+MISSING
+
+Last Known State:
+UNRECOVERED
+
+Recommendation:
+Continue investigation.
+`,
+
+        "KEEPERS.LOG": `
+The Keepers remain neutral.
+
+Observation continues.
+
+Await further instructions.
 `
-        },
-
-        "SURVEILLANCE": {
-
-            "CAM01.TXT": `
-CAMERA FEED
-
-Video Missing
-
-Only static remains.
-`
-        }
 
     }
 
