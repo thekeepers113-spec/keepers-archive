@@ -108,7 +108,9 @@ The index sometimes does.
 
     },
 
-    hidden: {"REGISTRY.SYS": `
+    hidden: {
+
+    "REGISTRY.SYS": `
 KEEPER REGISTRY
 
 ACCESS LEVEL:
@@ -116,8 +118,9 @@ RESTRICTED
 
 Use LOGIN to authenticate.
 
-`
-        "SIGNAL.DAT": `
+`,
+
+    "SIGNAL.DAT": `
 RECOVERED SIGNAL
 =================================
 
@@ -153,6 +156,4 @@ SIGNAL LOST
 
 `
 
-    }
-
-};
+}
