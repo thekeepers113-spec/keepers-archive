@@ -1,3 +1,11 @@
+```javascript
+/*
+=========================================
+KEEPER OS
+filesystem.js
+=========================================
+*/
+
 const GAME = {
 
     scanUnlocked: false,
@@ -18,7 +26,14 @@ const GAME = {
 
 };
 
+
 const FILESYSTEM = {
+
+    /*
+    =========================================
+    ROOT DIRECTORY
+    =========================================
+    */
 
     root: {
 
@@ -114,6 +129,13 @@ The index sometimes does.
 
     },
 
+
+    /*
+    =========================================
+    HIDDEN DIRECTORY
+    =========================================
+    */
+
     hidden: {
 
         "SIGNAL.DAT": `
@@ -180,103 +202,425 @@ ACCESS DENIED
 
     },
 
+
+    /*
+    =========================================
+    KEEPER REGISTRY
+    =========================================
+    */
+
     registry: {
 
         "NOTICE.LOG": `
-KEEPER NOTICE
+KEEPER REGISTRY
 
-Following the archive failure,
-all Registry authorization keys
-were divided into four fragments.
+ACCESS PROTOCOL
 
-No single archive record contains
-a complete key.
+Following the 1989 archive failure,
+Registry authorization was divided
+into multiple records.
 
-This procedure prevents
-unauthorized Registry access.
+No single record contains
+the complete authorization.
+
+NOTICE:
+
+Do not search by filename.
+
+Search by event.
+
+The last known Registry breach
+occurred at:
+
+08:14
 `,
 
-        "STAFF.LOG": `
-KEEPER PERSONNEL
+        "AUDIT.LOG": `
+ARCHIVE AUDIT
 
-RECOVERY-01
-Recovery Unit
-STATUS: ACTIVE
+DATE:
+1989-11-18
 
+08:02
+Routine maintenance.
+
+08:07
+Archive index synchronization.
+
+08:14
+UNAUTHORIZED ACCESS DETECTED.
+
+08:15
+Security response initiated.
+
+08:19
+Registry access terminated.
+
+08:22
+Keeper-07 reported missing.
+
+--------------------------------
+
+NOTE:
+
+The system recorded no valid
+credential at 08:14.
+
+Someone entered without logging in.
+`,
+
+        "CAMERAS.LOG": `
+SECURITY CAMERA REPORT
+
+CAMERA 01
+
+08:13
+Normal.
+
+08:14
+SIGNAL LOST.
+
+08:15
+SIGNAL RESTORED.
+
+
+CAMERA 02
+
+08:13
+Normal.
+
+08:14
+Normal.
+
+08:15
+Normal.
+
+
+CAMERA 03
+
+08:13
+Normal.
+
+08:14
+ARCHIVE CORRUPTION.
+
+08:15
+Normal.
+
+
+CAMERA 04
+
+08:13
+Normal.
+
+08:14
+SUBJECT DETECTED.
+
+08:15
+SUBJECT GONE.
+
+--------------------------------
+
+CAMERA 04 RECORD:
+
+SUBJECT:
 KEEPER-07
-Archive Supervisor
-STATUS: MISSING
 
-ADMIN
-System Administrator
-STATUS: ARCHIVED
-
-DIRECTOR
-Facility Director
-STATUS: UNKNOWN
-
-Personnel records
-may be incomplete.
+TIME:
+08:14
 `,
 
-        "PERSONNEL.DAT": `
-PERSONNEL DATABASE
+        "KEEPER-07.DAT": `
+PERSONNEL RECORD
 
-RECOVERY-01
+DESIGNATION:
+KEEPER-07
 
-Assignment:
-Recovery Unit
+ROLE:
+ARCHIVE SUPERVISOR
 
-Memory Status:
-PURGED
+STATUS:
+MISSING
 
-Original Identity:
-REDACTED
+LAST VERIFIED LOCATION:
 
-Recovery personnel receive
-replacement identities before
-deployment.
+REGISTRY ACCESS CORRIDOR
+
+TIME:
+08:14
+
+--------------------------------
+
+PERSONAL NOTE
+
+If the Registry ever reports
+an unauthorized entry at 08:14,
+
+do not trust the first record.
+
+The system clock was altered.
+
+Compare the security records
+before attempting recovery.
 `,
 
-        "AUTH.LOG": `
-AUTHORIZATION REPORT
+        "SECURITY.LOG": `
+SECURITY SYSTEM
 
-Registry Key fragmented.
+TIME SYNCHRONIZATION REPORT
 
-Fragment Count:
-4
+1989-11-18
 
-Recovery Required:
-YES
+PRIMARY CLOCK:
+08:14
 
-Authorized users must
-reconstruct the complete key
-before Registry access
-can be granted.
+SECONDARY CLOCK:
+08:17
+
+ARCHIVE CLOCK:
+08:11
+
+--------------------------------
+
+CLOCK DISCREPANCY DETECTED.
+
+Three systems recorded
+the same event differently.
+
+Original event time:
+
+UNKNOWN
+
+--------------------------------
+
+RECOVERY NOTE:
+
+The correct record can be found
+by comparing the three clocks.
+
+08:11
+08:14
+08:17
+
+Difference:
+
+3 minutes
 `,
 
-        "FRAGMENT-A.LOG": `
-AUTHORIZATION FRAGMENT
+        "MAINTENANCE.LOG": `
+MAINTENANCE REPORT
+
+TECHNICIAN:
+M. VALE
+
+SYSTEM:
+REGISTRY SECURITY
+
+ISSUE:
+Clock synchronization failure.
+
+CORRECTED:
+NO
+
+REASON:
+
+Manual correction prohibited
+during active containment.
+
+--------------------------------
+
+TECHNICIAN NOTE
+
+The corrupted time isn't random.
+
+Someone moved the archive clock
+exactly three minutes.
+
+Check the records surrounding
+the 08:14 incident.
+
+The first useful number is hidden
+in the correction interval.
+`,
+
+        "INDEX.LOG": `
+REGISTRY INDEX
+
+The following records were accessed
+during the 08:14 incident:
+
+AUDIT.LOG
+CAMERAS.LOG
+KEEPER-07.DAT
+SECURITY.LOG
+MAINTENANCE.LOG
+
+--------------------------------
+
+ONE ADDITIONAL RECORD WAS ACCESSED.
+
+Record name:
+████████████
+
+Status:
+REMOVED
+
+Recovery status:
+POSSIBLE
+`,
+
+        "RECOVERY.LOG": `
+RECOVERY REPORT
+
+Removed record partially recovered.
+
+Original filename:
+
+AUTHORIZATION.DAT
+
+Contents:
+
+[DATA CORRUPTED]
+
+Recovered bytes:
 
 7A
+
+Remaining data unavailable.
+
+--------------------------------
+
+RECOVERY NODE:
+K-113
+
+PACKET:
+002
 `,
 
-        "FRAGMENT-B.LOG": `
-AUTHORIZATION FRAGMENT
+        "PACKET-002.DAT": `
+RECOVERED PACKET
+
+SOURCE:
+KEEPER-07
+
+TIME:
+08:17
+
+MESSAGE:
+
+"If you're reading this,
+the first fragment survived.
+
+The clock was changed because
+the original authorization event
+was supposed to disappear.
+
+Three minutes.
+
+Remember that number.
+
+The next record is not where
+the index says it is."
+`,
+
+        "ARCHIVE-MAP.LOG": `
+ARCHIVE MAP
+
+STANDARD INDEX:
+
+SECURITY
+AUDIT
+PERSONNEL
+MAINTENANCE
+
+--------------------------------
+
+CORRUPTED ENTRY:
+
+08:17
+
+MAPPED DESTINATION:
+
+ARCHIVE / RECOVERY
+
+--------------------------------
+
+WARNING
+
+Recovered records may appear
+under their packet number rather
+than their original filename.
+`,
+
+        "PACKET-003.DAT": `
+RECOVERED PACKET
+
+SOURCE:
+UNKNOWN
+
+PACKET:
+003
+
+CONTENT:
 
 3F
+
+--------------------------------
+
+END PACKET
 `,
 
-        "FRAGMENT-C.LOG": `
-AUTHORIZATION FRAGMENT
+        "PACKET-004.DAT": `
+RECOVERED PACKET
+
+SOURCE:
+KEEPER ARCHIVE
+
+PACKET:
+004
+
+CONTENT:
 
 C1
+
+--------------------------------
+
+NOTE:
+
+Do not combine fragments
+until all packets are recovered.
 `,
 
-        "FRAGMENT-D.LOG": `
-AUTHORIZATION FRAGMENT
+        "PACKET-005.DAT": `
+RECOVERED PACKET
+
+SOURCE:
+UNKNOWN
+
+PACKET:
+005
+
+CONTENT:
 
 99
+
+--------------------------------
+
+FINAL PACKET
+
+The Registry key was never
+stored as one complete value.
+
+It was reconstructed
+from the recovered packets.
+
+Order is determined by
+packet number.
+
+002
+003
+004
+005
 `,
 
         "PROJECT-ECHO.LOG": `
@@ -290,22 +634,65 @@ SUBJECT INDEX
 004
 005
 
-STATUS
+STATUS:
 
 CLASSIFIED
 
-Only authorized personnel
-may access complete records.
+--------------------------------
+
+SUBJECT 001
+
+Containment:
+FAILED
+
+Transmission:
+RECOVERED
+
+--------------------------------
+
+SUBJECT 002
+
+Containment:
+STABLE
+
+--------------------------------
+
+SUBJECT 003
+
+Record:
+REMOVED
+
+--------------------------------
+
+SUBJECT 004
+
+Record:
+REMOVED
+
+--------------------------------
+
+SUBJECT 005
+
+Record:
+REMOVED
+
+--------------------------------
+
+NOTICE
+
+Subject numbers and packet
+numbers are unrelated.
+
+Do not assume otherwise.
 `,
 
-        "RECOVERY-01.DAT": `
-RECOVERY PROFILE
+        "PERSONNEL.DAT": `
+PERSONNEL DATABASE
 
-Designation:
 RECOVERY-01
 
 Assignment:
-Recovery Unit
+RECOVERY UNIT
 
 Memory:
 PURGED
@@ -315,11 +702,48 @@ REDACTED
 
 Status:
 ACTIVE
+
+--------------------------------
+
+KEEPER-07
+
+Assignment:
+ARCHIVE SUPERVISOR
+
+Status:
+MISSING
+
+--------------------------------
+
+ADMIN
+
+Assignment:
+SYSTEM ADMINISTRATION
+
+Status:
+ARCHIVED
+
+--------------------------------
+
+DIRECTOR
+
+Assignment:
+FACILITY DIRECTOR
+
+Status:
+UNKNOWN
 `
 
     }
 
 };
+
+
+/*
+=========================================
+USER DATABASE
+=========================================
+*/
 
 const USERS = {
 
@@ -332,3 +756,5 @@ const USERS = {
     }
 
 };
+```
+
