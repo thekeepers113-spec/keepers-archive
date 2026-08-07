@@ -6,6 +6,41 @@ Command Engine
 */
 
 const COMMANDS = {
+    LOGIN(username, password) {
+
+    if (!username || !password) {
+        return `
+Usage:
+
+LOGIN username password
+`;
+    }
+
+    username = username.toUpperCase();
+
+    const user = USERS[username];
+
+    if (!user) {
+        return "ACCESS DENIED";
+    }
+
+    if (user.password !== password) {
+        return "ACCESS DENIED";
+    }
+
+    GAME.loggedIn = true;
+    GAME.user = username;
+    GAME.clearance = user.clearance;
+
+    return `
+AUTHENTICATION SUCCESSFUL
+
+USER: ${username}
+
+CLEARANCE LEVEL: ${GAME.clearance}
+`;
+
+},
 
 HELP() {
 
