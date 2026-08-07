@@ -78,7 +78,10 @@ const arg = args.join(" ");
             case "SCAN":
     print(COMMANDS.SCAN());
     break;
-
+            case "LOGIN":
+    print(COMMANDS.LOGIN(args[0], args[1]));
+    break;
+            
         default:
             print("UNKNOWN COMMAND");
     }
