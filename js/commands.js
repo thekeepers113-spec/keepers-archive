@@ -46,7 +46,7 @@ CLEARANCE LEVEL: ${GAME.clearance}
 
     HELP() {
 
-        let commands = `
+        return `
 AVAILABLE COMMANDS
 
 HELP
@@ -58,17 +58,9 @@ VER
 SCAN
 AUTH
 CLS
-`;
-
-        if (GAME.registryUnlocked) {
-
-            commands += `
 CD
 BACK
 `;
-        }
-
-        return commands;
     },
 
 
@@ -83,6 +75,10 @@ BACK
         }
 
         else if (GAME.currentDirectory === "HIDDEN") {
+
+            if (!GAME.signalRecovered) {
+                return "DIRECTORY NOT FOUND";
+            }
 
             directory = FILESYSTEM.hidden;
 
@@ -101,7 +97,6 @@ BACK
         else {
 
             return "DIRECTORY NOT FOUND";
-
         }
 
 
@@ -188,25 +183,16 @@ OPEN filename
 
         filename = filename.toUpperCase();
 
-        let directory;
-
 
         /*
         =========================================
-        ROOT
+        ROOT DIRECTORY
         =========================================
         */
 
         if (GAME.currentDirectory === "ROOT") {
 
-            directory = FILESYSTEM.root;
-
-            if (directory[filename]) {
-
-                /*
-                Opening OPERATIONS.LOG
-                enables SCAN.
-                */
+            if (FILESYSTEM.root[filename]) {
 
                 if (filename === "OPERATIONS.LOG") {
 
@@ -214,33 +200,20 @@ OPEN filename
 
                 }
 
-                return directory[filename];
+                return FILESYSTEM.root[filename];
             }
 
 
             /*
-            Hidden files cannot normally
-            be opened from ROOT.
+            Hidden files become available
+            after SIGNAL.DAT is recovered.
             */
 
             if (FILESYSTEM.hidden[filename]) {
 
-                if (filename === "SIGNAL.DAT") {
+                if (!GAME.signalRecovered) {
 
-                    if (!GAME.signalRecovered) {
-
-                        return "FILE NOT FOUND";
-                    }
-
-                }
-
-                if (filename === "REGISTRY.SYS") {
-
-                    if (!GAME.signalRecovered) {
-
-                        return "FILE NOT FOUND";
-                    }
-
+                    return "FILE NOT FOUND";
                 }
 
                 return FILESYSTEM.hidden[filename];
@@ -253,33 +226,31 @@ OPEN filename
 
         /*
         =========================================
-        HIDDEN
+        HIDDEN DIRECTORY
         =========================================
         */
 
         if (GAME.currentDirectory === "HIDDEN") {
 
-            directory = FILESYSTEM.hidden;
+            if (!GAME.signalRecovered) {
 
-            if (!directory[filename]) {
+                return "ACCESS DENIED";
+            }
+
+
+            if (!FILESYSTEM.hidden[filename]) {
 
                 return "FILE NOT FOUND";
             }
 
 
-            if (filename === "REGISTRY.SYS") {
-
-                return directory[filename];
-            }
-
-
-            return directory[filename];
+            return FILESYSTEM.hidden[filename];
         }
 
 
         /*
         =========================================
-        REGISTRY
+        REGISTRY DIRECTORY
         =========================================
         */
 
@@ -290,63 +261,25 @@ OPEN filename
                 return "ACCESS DENIED";
             }
 
-            directory = FILESYSTEM.registry;
 
-            if (!directory[filename]) {
+            if (!FILESYSTEM.registry[filename]) {
 
                 return "FILE NOT FOUND";
             }
 
 
             /*
-            Fragment detection
+            Track investigation progress.
             */
 
-            if (filename === "FRAGMENT-A.LOG") {
+            if (!GAME.discoveredFiles.includes(filename)) {
 
-                if (!GAME.keyFragments.includes("7A")) {
-
-                    GAME.keyFragments.push("7A");
-
-                }
+                GAME.discoveredFiles.push(filename);
 
             }
 
 
-            if (filename === "FRAGMENT-B.LOG") {
-
-                if (!GAME.keyFragments.includes("3F")) {
-
-                    GAME.keyFragments.push("3F");
-
-                }
-
-            }
-
-
-            if (filename === "FRAGMENT-C.LOG") {
-
-                if (!GAME.keyFragments.includes("C1")) {
-
-                    GAME.keyFragments.push("C1");
-
-                }
-
-            }
-
-
-            if (filename === "FRAGMENT-D.LOG") {
-
-                if (!GAME.keyFragments.includes("99")) {
-
-                    GAME.keyFragments.push("99");
-
-                }
-
-            }
-
-
-            return directory[filename];
+            return FILESYSTEM.registry[filename];
         }
 
 
@@ -381,6 +314,248 @@ Recovered file:
 SIGNAL.DAT
 `;
         }
+
+
+        GAME.signalRecovered = true;
+
+
+        return `
+SCANNING ARCHIVE...
+
+Sector 001........OK
+Sector 002........OK
+Sector 003........CORRUPTED
+Sector 004........RECOVERED
+
+--------------------------------
+
+HIDDEN FILE RECOVERED:
+
+SIGNAL.DAT
+
+--------------------------------
+
+Use:
+
+OPEN SIGNAL.DAT
+
+to inspect the recovered transmission.
+`;
+    },
+
+
+    AUTH(key) {
+
+        if (!key) {
+
+            return `
+Usage:
+
+AUTH XX-XX-XX-XX
+`;
+        }
+
+
+        const normalizedKey =
+            key
+                .toUpperCase()
+                .replace(/-/g, "")
+                .replace(/\s/g, "");
+
+
+        /*
+        =========================================
+        REGISTRY AUTHORIZATION
+        =========================================
+        */
+
+        if (normalizedKey !== "7A3FC199") {
+
+            return `
+AUTHORIZATION FAILED
+
+INVALID AUTHORIZATION KEY
+`;
+        }
+
+
+        GAME.registryAuthorized = true;
+        GAME.registryUnlocked = true;
+        GAME.clearance = 1;
+
+
+        return `
+=========================================
+
+REGISTRY AUTHORIZATION ACCEPTED
+
+AUTHORIZATION KEY:
+7A-3F-C1-99
+
+-----------------------------------------
+
+CLEARANCE UPDATED
+
+LEVEL 0
+    ↓
+LEVEL 1
+
+-----------------------------------------
+
+KEEPER REGISTRY:
+UNLOCKED
+
+-----------------------------------------
+
+The archive has accepted
+your authorization.
+
+But something is wrong.
+
+The Registry contains records
+that should not exist.
+
+=========================================
+
+Use:
+
+CD REGISTRY
+
+to enter the Registry.
+`;
+    },
+
+
+    CD(directory) {
+
+        if (!directory) {
+
+            return `
+Usage:
+
+CD REGISTRY
+`;
+        }
+
+
+        directory = directory.toUpperCase();
+
+
+        /*
+        =========================================
+        REGISTRY
+        =========================================
+        */
+
+        if (directory === "REGISTRY") {
+
+            if (!GAME.registryUnlocked) {
+
+                return `
+ACCESS DENIED
+
+Registry authorization required.
+`;
+            }
+
+
+            GAME.currentDirectory = "REGISTRY";
+
+
+            return `
+DIRECTORY CHANGED
+
+C:\\KEEPERS\\REGISTRY>
+`;
+        }
+
+
+        /*
+        =========================================
+        HIDDEN
+        =========================================
+        */
+
+        if (directory === "HIDDEN") {
+
+            if (!GAME.signalRecovered) {
+
+                return `
+ACCESS DENIED
+
+Hidden directory unavailable.
+`;
+            }
+
+
+            GAME.currentDirectory = "HIDDEN";
+
+
+            return `
+DIRECTORY CHANGED
+
+C:\\KEEPERS\\HIDDEN>
+`;
+        }
+
+
+        /*
+        =========================================
+        ROOT
+        =========================================
+        */
+
+        if (
+            directory === "ROOT" ||
+            directory === ".."
+        ) {
+
+            GAME.currentDirectory = "ROOT";
+
+
+            return `
+DIRECTORY CHANGED
+
+C:\\KEEPERS>
+`;
+        }
+
+
+        return "DIRECTORY NOT FOUND";
+    },
+
+
+    BACK() {
+
+        if (GAME.currentDirectory === "ROOT") {
+
+            return `
+Already at root directory.
+`;
+        }
+
+
+        GAME.currentDirectory = "ROOT";
+
+
+        return `
+DIRECTORY CHANGED
+
+C:\\KEEPERS>
+`;
+    },
+
+
+    CLS() {
+
+        clearScreen();
+
+        return "";
+    }
+
+};
+```
+
 
 
         GAME.signalRecovered = true;
