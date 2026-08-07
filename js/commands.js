@@ -97,6 +97,7 @@ BACK
         else {
 
             return "DIRECTORY NOT FOUND";
+
         }
 
 
@@ -194,6 +195,11 @@ OPEN filename
 
             if (FILESYSTEM.root[filename]) {
 
+                /*
+                Opening OPERATIONS.LOG
+                unlocks SCAN.
+                */
+
                 if (filename === "OPERATIONS.LOG") {
 
                     GAME.scanUnlocked = true;
@@ -214,9 +220,11 @@ OPEN filename
                 if (!GAME.signalRecovered) {
 
                     return "FILE NOT FOUND";
+
                 }
 
                 return FILESYSTEM.hidden[filename];
+
             }
 
 
@@ -235,12 +243,14 @@ OPEN filename
             if (!GAME.signalRecovered) {
 
                 return "ACCESS DENIED";
+
             }
 
 
             if (!FILESYSTEM.hidden[filename]) {
 
                 return "FILE NOT FOUND";
+
             }
 
 
@@ -259,17 +269,19 @@ OPEN filename
             if (!GAME.registryUnlocked) {
 
                 return "ACCESS DENIED";
+
             }
 
 
             if (!FILESYSTEM.registry[filename]) {
 
                 return "FILE NOT FOUND";
+
             }
 
 
             /*
-            Track investigation progress.
+            Track files the player investigates.
             */
 
             if (!GAME.discoveredFiles.includes(filename)) {
@@ -356,18 +368,22 @@ AUTH XX-XX-XX-XX
         }
 
 
+        /*
+        =========================================
+        REGISTRY AUTHORIZATION
+        =========================================
+
+        Correct key:
+
+        7A-3F-C1-99
+        */
+
         const normalizedKey =
             key
                 .toUpperCase()
                 .replace(/-/g, "")
                 .replace(/\s/g, "");
 
-
-        /*
-        =========================================
-        REGISTRY AUTHORIZATION
-        =========================================
-        */
 
         if (normalizedKey !== "7A3FC199") {
 
@@ -556,218 +572,4 @@ C:\\KEEPERS>
 };
 ```
 
-
-
-        GAME.signalRecovered = true;
-
-        return `
-SCANNING ARCHIVE...
-
-Sector 001........OK
-Sector 002........OK
-Sector 003........CORRUPTED
-Sector 004........RECOVERED
-
---------------------------------
-
-HIDDEN FILE RECOVERED:
-
-SIGNAL.DAT
-
---------------------------------
-
-Use DIR to refresh the archive.
-`;
-    },
-
-
-    AUTH(key) {
-
-        if (!key) {
-
-            return `
-Usage:
-
-AUTH XX-XX-XX-XX
-`;
-        }
-
-
-        /*
-        Normalize the player's input.
-
-        This allows:
-
-        AUTH 7A-3F-C1-99
-
-        or
-
-        AUTH 7A3FC199
-        */
-
-        const normalizedKey =
-            key
-                .toUpperCase()
-                .replace(/-/g, "")
-                .replace(/\s/g, "");
-
-
-        /*
-        Player must have discovered
-        all four fragments.
-        */
-
-        if (GAME.keyFragments.length < 4) {
-
-            return `
-AUTHORIZATION FAILED
-
-Incomplete authorization key.
-
-Fragments recovered:
-
-${GAME.keyFragments.length}/4
-`;
-        }
-
-
-        /*
-        Correct Registry key.
-        */
-
-        if (normalizedKey !== "7A3FC199") {
-
-            return `
-AUTHORIZATION FAILED
-
-INVALID KEY
-`;
-        }
-
-
-        GAME.registryAuthorized = true;
-        GAME.registryUnlocked = true;
-        GAME.clearance = 1;
-
-
-        return `
-=========================================
-
-REGISTRY AUTHORIZATION ACCEPTED
-
-AUTHORIZATION KEY:
-7A-3F-C1-99
-
-CLEARANCE UPDATED
-
-LEVEL 0
-    ↓
-LEVEL 1
-
-KEEPER REGISTRY:
-UNLOCKED
-
-=========================================
-
-Use:
-
-CD REGISTRY
-
-to enter the Registry.
-`;
-    },
-
-
-    CD(directory) {
-
-        if (!directory) {
-
-            return `
-Usage:
-
-CD REGISTRY
-`;
-        }
-
-
-        directory = directory.toUpperCase();
-
-
-        if (directory === "REGISTRY") {
-
-            if (!GAME.registryUnlocked) {
-
-                return `
-ACCESS DENIED
-
-Registry authorization required.
-`;
-            }
-
-
-            GAME.currentDirectory = "REGISTRY";
-
-            return `
-DIRECTORY CHANGED
-
-C:\\KEEPERS\\REGISTRY>
-`;
-        }
-
-
-        if (directory === "HIDDEN") {
-
-            if (!GAME.signalRecovered) {
-
-                return `
-ACCESS DENIED
-
-Hidden directory unavailable.
-`;
-            }
-
-
-            GAME.currentDirectory = "HIDDEN";
-
-            return `
-DIRECTORY CHANGED
-
-C:\\KEEPERS\\HIDDEN>
-`;
-        }
-
-
-        return "DIRECTORY NOT FOUND";
-    },
-
-
-    BACK() {
-
-        if (GAME.currentDirectory === "ROOT") {
-
-            return `
-Already at root directory.
-`;
-        }
-
-
-        GAME.currentDirectory = "ROOT";
-
-        return `
-DIRECTORY CHANGED
-
-C:\\KEEPERS>
-`;
-    },
-
-
-    CLS() {
-
-        clearScreen();
-
-        return "";
-    }
-
-};
-```
 
