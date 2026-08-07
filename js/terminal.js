@@ -75,10 +75,23 @@ const arg = args.join(" ");
             COMMANDS.CLS();
             break;
 
-            case "SCAN":
+  case "SCAN":
     print(COMMANDS.SCAN());
     break;
-            case "LOGIN":
+
+case "AUTH":
+    print(COMMANDS.AUTH(arg));
+    break;
+
+case "CD":
+    print(COMMANDS.CD(args[0]));
+    break;
+
+case "BACK":
+    print(COMMANDS.BACK());
+    break;
+
+case "LOGIN":
     print(COMMANDS.LOGIN(args[0], args[1]));
     break;
             
