@@ -10,12 +10,33 @@ const GAME = {
     scanUnlocked: false,
     signalRecovered: false,
 
+    loggedIn: false,
+    clearance: 0,
+    user: "RECOVERY-01",
+
     discoveredFiles: []
 
 };
 
 const FILESYSTEM = {
+    const USERS = {
 
+    "RECOVERY-01": {
+        password: "ECHO113",
+        clearance: 0
+    },
+
+    "KEEPER-07": {
+        password: "BLACKBOX",
+        clearance: 1
+    },
+
+    "DIRECTOR": {
+        password: "ASHES",
+        clearance: 3
+    }
+
+};
     root: {
 
         "README.TXT": `
