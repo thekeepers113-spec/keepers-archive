@@ -1,11 +1,5 @@
-/*
-=========================================
-KEEPER OS
-Virtual File System
-=========================================
-*/
-
 const GAME = {
+
     scanUnlocked: false,
     signalRecovered: false,
 
@@ -13,7 +7,15 @@ const GAME = {
     clearance: 0,
     user: "RECOVERY-01",
 
-    discoveredFiles: []
+    discoveredFiles: [],
+
+    registryUnlocked: false,
+    registryAuthorized: false,
+
+    currentDirectory: "ROOT",
+
+    keyFragments: []
+
 };
 
 const FILESYSTEM = {
@@ -22,36 +24,38 @@ const FILESYSTEM = {
 
         "README.TXT": `
 KEEPER ARCHIVE
-----------------------------
 
 Recovery Terminal v1.13
 
-Your assignment:
+Your assignment is simple.
 
-Recover Echo 001.
+Locate and recover Echo 001.
 
-Standard archive commands
-are available.
+Use the available terminal commands
+to inspect archive records.
 
-Read everything.
+Some files have been intentionally
+removed from the directory index.
 
-Some files were intentionally
-removed from the directory.
+If something appears to be missing...
+
+keep searching.
 `,
 
         "STATUS.LOG": `
 SYSTEM STATUS
-----------------------------
 
-Archive ............ ONLINE
+ARCHIVE .............. ONLINE
 
-Echo 001 ........... MISSING
+TARGET ............... ECHO 001
 
-Signal Strength .... 17%
+STATUS ............... MISSING
 
-Recovery Clearance . LEVEL 0
+SIGNAL STRENGTH ...... 17%
 
-NOTICE:
+CLEARANCE ............ LEVEL 0
+
+NOTICE
 
 Directory listings
 cannot always be trusted.
@@ -59,23 +63,25 @@ cannot always be trusted.
 
         "OPERATIONS.LOG": `
 SYSTEM OPERATIONS
-----------------------------
 
 Maintenance Report
+
+Date:
 1989-11-18
 
-Index corruption detected.
+Archive index corruption detected.
 
-Directory table may omit
+Directory tables may omit
 recoverable records.
 
 If standard retrieval fails,
 perform a storage scan.
+
+Report Complete.
 `,
 
         "ECHO001.TXT": `
 ECHO RECORD
-----------------------------
 
 Designation:
 Echo 001
@@ -86,17 +92,20 @@ MISSING
 Recovery Priority:
 MAXIMUM
 
-Last known transmission
-terminated unexpectedly.
+Last Known Transmission:
+
+Connection terminated
+unexpectedly.
+
+Signal unavailable.
 `,
 
         "NOTES.TXT": `
 FIELD NOTES
-----------------------------
 
 People stop searching
-once DIR says there
-are no more files.
+once DIR reports
+there are no more files.
 
 The archive never lies.
 
@@ -107,19 +116,8 @@ The index sometimes does.
 
     hidden: {
 
-        "REGISTRY.SYS": `
-KEEPER REGISTRY
-----------------------------
-
-ACCESS LEVEL:
-RESTRICTED
-
-Use LOGIN to authenticate.
-`,
-
         "SIGNAL.DAT": `
 RECOVERED SIGNAL
-=================================
 
 RECOVERY NODE:
 K-113
@@ -150,6 +148,173 @@ Do NOT reconnect me.
 END OF TRANSMISSION
 
 SIGNAL LOST
+`,
+
+        "REGISTRY.SYS": `
+KEEPER REGISTRY
+
+STATUS:
+LOCKED
+
+NOTICE
+
+Registry access requires
+a valid Authorization Key.
+
+Authentication credentials
+are no longer accepted.
+
+Authorization fragments
+remain stored within
+the archive.
+
+Locate every fragment.
+
+Reconstruct the key.
+
+Then authenticate.
+
+ERROR:
+ACCESS DENIED
+`
+
+    },
+
+    registry: {
+
+        "NOTICE.LOG": `
+KEEPER NOTICE
+
+Following the archive failure,
+all Registry authorization keys
+were divided into four fragments.
+
+No single archive record contains
+a complete key.
+
+This procedure prevents
+unauthorized Registry access.
+`,
+
+        "STAFF.LOG": `
+KEEPER PERSONNEL
+
+RECOVERY-01
+Recovery Unit
+STATUS: ACTIVE
+
+KEEPER-07
+Archive Supervisor
+STATUS: MISSING
+
+ADMIN
+System Administrator
+STATUS: ARCHIVED
+
+DIRECTOR
+Facility Director
+STATUS: UNKNOWN
+
+Personnel records
+may be incomplete.
+`,
+
+        "PERSONNEL.DAT": `
+PERSONNEL DATABASE
+
+RECOVERY-01
+
+Assignment:
+Recovery Unit
+
+Memory Status:
+PURGED
+
+Original Identity:
+REDACTED
+
+Recovery personnel receive
+replacement identities before
+deployment.
+`,
+
+        "AUTH.LOG": `
+AUTHORIZATION REPORT
+
+Registry Key fragmented.
+
+Fragment Count:
+4
+
+Recovery Required:
+YES
+
+Authorized users must
+reconstruct the complete key
+before Registry access
+can be granted.
+`,
+
+        "FRAGMENT-A.LOG": `
+AUTHORIZATION FRAGMENT
+
+7A
+`,
+
+        "FRAGMENT-B.LOG": `
+AUTHORIZATION FRAGMENT
+
+3F
+`,
+
+        "FRAGMENT-C.LOG": `
+AUTHORIZATION FRAGMENT
+
+C1
+`,
+
+        "FRAGMENT-D.LOG": `
+AUTHORIZATION FRAGMENT
+
+99
+`,
+
+        "PROJECT-ECHO.LOG": `
+PROJECT ECHO
+
+SUBJECT INDEX
+
+001
+002
+003
+004
+005
+
+STATUS
+
+CLASSIFIED
+
+Only authorized personnel
+may access complete records.
+`,
+
+        "RECOVERY-01.DAT": `
+RECOVERY PROFILE
+
+Designation:
+RECOVERY-01
+
+Assignment:
+Recovery Unit
+
+Memory:
+PURGED
+
+Original Identity:
+REDACTED
+
+Status:
+ACTIVE
 `
 
     }
@@ -159,23 +324,11 @@ SIGNAL LOST
 const USERS = {
 
     "RECOVERY-01": {
+
         password: "ECHO113",
+
         clearance: 0
-    },
 
-    "KEEPER-07": {
-        password: "BLACKBOX",
-        clearance: 1
-    },
-
-    "ADMIN": {
-        password: "OBSIDIAN",
-        clearance: 2
-    },
-
-    "DIRECTOR": {
-        password: "ASHES",
-        clearance: 3
     }
 
 };
