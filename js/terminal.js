@@ -1,3 +1,4 @@
+```javascript
 /*
 =========================================
 KEEPER OS
@@ -23,12 +24,10 @@ function print(text = "") {
 
     output.innerHTML +=
         text
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
             .replace(/\n/g, "<br>");
 
     output.scrollTop = output.scrollHeight;
+
 }
 
 
@@ -169,21 +168,16 @@ function execute(commandLine) {
             break;
 
 
-        case "CLS":
+        case "LOGIN":
 
-            COMMANDS.CLS();
+            print(COMMANDS.LOGIN(args[0], args[1]));
 
             break;
 
 
-        case "LOGIN":
+        case "CLS":
 
-            print(
-                COMMANDS.LOGIN(
-                    args[0],
-                    args[1]
-                )
-            );
+            COMMANDS.CLS();
 
             break;
 
@@ -209,15 +203,11 @@ KEYBOARD INPUT
 input.addEventListener("keydown", function(e) {
 
 
-    /*
-    ENTER
-    */
-
     if (e.key === "Enter") {
 
         /*
         Password entry is handled
-        by boot.js.
+        by the boot system.
         */
 
         if (input.type === "password") {
@@ -225,7 +215,6 @@ input.addEventListener("keydown", function(e) {
             return;
 
         }
-
 
         execute(input.value);
 
@@ -332,3 +321,4 @@ function startTerminal() {
     prompt();
 
 }
+```
