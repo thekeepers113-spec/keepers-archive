@@ -1,8 +1,8 @@
 /*
-====================================
-KEEPER OS v1.13
+=========================================
+KEEPER OS
 Command Engine
-====================================
+=========================================
 */
 
 const COMMANDS = {
@@ -21,11 +21,28 @@ VER
 CLS
 
 `;
+
+},
+
+DIR() {
+
+let text = "";
+
+for (const file in FILESYSTEM.root) {
+    text += file + "\n";
+}
+
+return text;
+
 },
 
 STATUS() {
 
 return `
+ARCHIVE STATUS
+
+ONLINE
+
 TARGET:
 ECHO 001
 
@@ -35,10 +52,8 @@ MISSING
 SIGNAL:
 17%
 
-RECOVERY:
-AUTHORIZED
-
 `;
+
 },
 
 WHOAMI() {
@@ -48,6 +63,7 @@ RECOVERY-01
 
 CLEARANCE LEVEL:
 0
+
 `;
 
 },
@@ -61,49 +77,75 @@ VERSION 1.13
 
 ARCHIVE BUILD:
 1989.11
+
 `;
-
-},
-
-DIR() {
-
-let output="";
-
-for(const file in FILESYSTEM.root){
-
-output+=file+"\n";
-
-}
-
-return output;
 
 },
 
 OPEN(filename){
 
-if(!filename){
+if(!filename)
+    return "Usage:\nOPEN filename";
 
-return "Usage:\nOPEN filename";
+filename = filename.toUpperCase();
 
+if(FILESYSTEM.root[filename]){
+
+    if(filename==="OPERATIONS.LOG"){
+        GAME.scanUnlocked = true;
+    }
+
+    return FILESYSTEM.root[filename];
 }
 
-filename=filename.toUpperCase();
+if(FILESYSTEM.hidden[filename]){
 
-const file=FILESYSTEM.root[filename];
+    if(!GAME.signalRecovered){
+        return "FILE NOT FOUND";
+    }
 
-if(file===undefined){
+    return FILESYSTEM.hidden[filename];
+}
 
 return "FILE NOT FOUND";
 
+},
+
+SCAN(){
+
+if(!GAME.scanUnlocked){
+
+return `
+SCAN FAILED
+
+Unknown scan target.
+
+`;
+
 }
 
-if(typeof file==="object"){
+GAME.signalRecovered = true;
 
-return "DIRECTORY\n\nFuture update.";
+return `
+Scanning archive...
 
-}
+Sector 001........OK
+Sector 002........OK
+Sector 003........CORRUPTED
+Sector 004........RECOVERED
 
-return file;
+Hidden file recovered:
+
+SIGNAL.DAT
+
+`;
+
+},
+
+CLS(){
+
+clearScreen();
+return "";
 
 }
 
