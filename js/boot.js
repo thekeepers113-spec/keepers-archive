@@ -65,6 +65,8 @@ input.addEventListener("keydown", function (e) {
 
     const password = input.value.trim();
 
+print("DEBUG: [" + password + "]");
+
     if (password === "K-113") {
 
         passwordMode = false;
