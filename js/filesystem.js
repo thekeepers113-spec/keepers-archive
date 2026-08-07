@@ -108,8 +108,15 @@ The index sometimes does.
 
     },
 
-    hidden: {
+    hidden: {"REGISTRY.SYS": `
+KEEPER REGISTRY
 
+ACCESS LEVEL:
+RESTRICTED
+
+Use LOGIN to authenticate.
+
+`
         "SIGNAL.DAT": `
 RECOVERED SIGNAL
 =================================
