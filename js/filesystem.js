@@ -5,54 +5,125 @@ Virtual File System
 =========================================
 */
 
+const GAME = {
+
+    scanUnlocked: false,
+    signalRecovered: false,
+
+    discoveredFiles: []
+
+};
+
 const FILESYSTEM = {
 
     root: {
 
         "README.TXT": `
 KEEPER ARCHIVE
+----------------------------
 
 Recovery Terminal v1.13
 
-Type HELP for commands.
+Your assignment:
 
-Echo 001 remains missing.
+Recover Echo 001.
+
+Standard archive commands
+are available.
+
+Read everything.
+
+Some files were intentionally
+removed from the directory.
+
 `,
 
         "STATUS.LOG": `
-ARCHIVE STATUS
+SYSTEM STATUS
+----------------------------
 
-ONLINE
+Archive ............ ONLINE
 
-AUTHORIZED USER:
-RECOVERY-01
+Echo 001 ........... MISSING
 
-SIGNAL:
-17%
+Signal Strength .... 17%
 
-LAST CONTACT:
-UNKNOWN
+Recovery Clearance . LEVEL 0
+
+NOTICE:
+
+Directory listings
+cannot always be trusted.
+
+`,
+
+        "OPERATIONS.LOG": `
+SYSTEM OPERATIONS
+----------------------------
+
+Maintenance Report
+1989-11-18
+
+Index corruption detected.
+
+Directory table may omit
+recoverable records.
+
+If standard retrieval fails,
+perform a storage scan.
+
 `,
 
         "ECHO001.TXT": `
-ECHO 001
+ECHO RECORD
+----------------------------
 
-Classification:
+Designation:
+Echo 001
+
+Status:
 MISSING
 
-Last Known State:
-UNRECOVERED
+Recovery Priority:
+MAXIMUM
 
-Recommendation:
-Continue investigation.
+Last known transmission
+terminated unexpectedly.
+
 `,
 
-        "KEEPERS.LOG": `
-The Keepers remain neutral.
+        "NOTES.TXT": `
+FIELD NOTES
+----------------------------
 
-Observation continues.
+People stop searching
+once DIR says there
+are no more files.
 
-Await further instructions.
+The archive never lies.
+
+The index sometimes does.
+
+`
+
+    },
+
+    hidden: {
+
+        "SIGNAL.DAT": `
+RECOVERED SIGNAL
+----------------------------
+
+Transmission Fragment
+
+"...if anyone finds this...
+
+do NOT trust the index...
+
+there are more of us..."
+
+SIGNAL LOST
+
 `
 
     }
