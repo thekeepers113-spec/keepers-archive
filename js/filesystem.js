@@ -112,15 +112,35 @@ The index sometimes does.
 
         "SIGNAL.DAT": `
 RECOVERED SIGNAL
-----------------------------
+=================================
 
-Transmission Fragment
+RECOVERY NODE:
+K-113
 
-"...if anyone finds this...
+PACKET:
+001
 
-do NOT trust the index...
+BEGIN TRANSCRIPT
 
-there are more of us..."
+"...this is Echo 001...
+
+If this archive has been opened,
+then containment failed.
+
+The directory is incomplete.
+
+The Keepers removed records,
+not data.
+
+If you can read this...
+
+find the Registry.
+
+Do NOT reconnect me.
+
+...they're watching..."
+
+END OF TRANSMISSION
 
 SIGNAL LOST
 
