@@ -83,9 +83,16 @@ function execute(commandLine) {
 
 input.addEventListener("keydown", function(e){
 
-    if(e.key==="Enter"){
-        execute(input.value);
+ if (e.key === "Enter") {
+
+    // Don't execute commands until after login.
+    if (input.type === "password") {
+        return;
     }
+
+    execute(input.value);
+
+}
 
     if(e.key==="ArrowUp"){
 
