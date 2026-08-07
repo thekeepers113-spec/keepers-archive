@@ -6,7 +6,6 @@ Virtual File System
 */
 
 const GAME = {
-
     scanUnlocked: false,
     signalRecovered: false,
 
@@ -15,28 +14,10 @@ const GAME = {
     user: "RECOVERY-01",
 
     discoveredFiles: []
-
 };
 
 const FILESYSTEM = {
-    const USERS = {
 
-    "RECOVERY-01": {
-        password: "ECHO113",
-        clearance: 0
-    },
-
-    "KEEPER-07": {
-        password: "BLACKBOX",
-        clearance: 1
-    },
-
-    "DIRECTOR": {
-        password: "ASHES",
-        clearance: 3
-    }
-
-};
     root: {
 
         "README.TXT": `
@@ -56,7 +37,6 @@ Read everything.
 
 Some files were intentionally
 removed from the directory.
-
 `,
 
         "STATUS.LOG": `
@@ -75,7 +55,6 @@ NOTICE:
 
 Directory listings
 cannot always be trusted.
-
 `,
 
         "OPERATIONS.LOG": `
@@ -92,7 +71,6 @@ recoverable records.
 
 If standard retrieval fails,
 perform a storage scan.
-
 `,
 
         "ECHO001.TXT": `
@@ -110,7 +88,6 @@ MAXIMUM
 
 Last known transmission
 terminated unexpectedly.
-
 `,
 
         "NOTES.TXT": `
@@ -124,24 +101,23 @@ are no more files.
 The archive never lies.
 
 The index sometimes does.
-
 `
 
     },
 
     hidden: {
 
-    "REGISTRY.SYS": `
+        "REGISTRY.SYS": `
 KEEPER REGISTRY
+----------------------------
 
 ACCESS LEVEL:
 RESTRICTED
 
 Use LOGIN to authenticate.
-
 `,
 
-    "SIGNAL.DAT": `
+        "SIGNAL.DAT": `
 RECOVERED SIGNAL
 =================================
 
@@ -174,9 +150,32 @@ Do NOT reconnect me.
 END OF TRANSMISSION
 
 SIGNAL LOST
-
 `
 
+    }
+
+};
+
+const USERS = {
+
+    "RECOVERY-01": {
+        password: "ECHO113",
+        clearance: 0
+    },
+
+    "KEEPER-07": {
+        password: "BLACKBOX",
+        clearance: 1
+    },
+
+    "ADMIN": {
+        password: "OBSIDIAN",
+        clearance: 2
+    },
+
+    "DIRECTOR": {
+        password: "ASHES",
+        clearance: 3
     }
 
 };
