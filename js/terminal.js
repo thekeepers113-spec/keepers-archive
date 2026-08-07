@@ -15,8 +15,6 @@ let historyIndex = 0;
 function print(text = "") {
     output.innerHTML += text.replace(/\n/g, "<br>") + "<br>";
     output.scrollTop = output.scrollHeight;
-    document.getElementById("terminal").scrollTop =
-        document.getElementById("terminal").scrollHeight;
 }
 
 function clearScreen() {
@@ -30,18 +28,23 @@ function prompt() {
 
 function execute(commandLine) {
 
-    if (!commandLine.trim()) return;
+    commandLine = commandLine.trim();
+
+    if (!commandLine) {
+        prompt();
+        return;
+    }
 
     history.push(commandLine);
     historyIndex = history.length;
 
     print(`<span style="color:#33ff66;">C:\\KEEPERS&gt; ${commandLine}</span>`);
 
-    const parts = commandLine.trim().split(" ");
+    const parts = commandLine.split(" ");
     const command = parts[0].toUpperCase();
     const arg = parts.slice(1).join(" ");
 
-    switch (command) {
+    switch(command){
 
         case "HELP":
             print(COMMANDS.HELP());
@@ -68,39 +71,27 @@ function execute(commandLine) {
             break;
 
         case "CLS":
-            clearScreen();
-            break;
-
-        case "EXIT":
-            print("LOGOUT NOT AVAILABLE");
+            COMMANDS.CLS();
             break;
 
         default:
-            print(
-`UNKNOWN COMMAND
-
-Type HELP for a list of available commands.`
-            );
+            print("UNKNOWN COMMAND");
     }
 
     prompt();
 }
 
-input.addEventListener("keydown", e => {
+input.addEventListener("keydown", function(e){
 
-    if (e.key === "Enter") {
+    if(e.key==="Enter"){
         execute(input.value);
     }
 
-    if (e.key === "ArrowUp") {
+    if(e.key==="ArrowUp"){
 
         if(history.length===0) return;
 
-        historyIndex--;
-
-        if(historyIndex<0)
-            historyIndex=0;
-
+        historyIndex=Math.max(0,historyIndex-1);
         input.value=history[historyIndex];
 
     }
@@ -125,16 +116,14 @@ input.addEventListener("keydown", e => {
 
 });
 
-/*
-Called by boot.js
-*/
-
 function startTerminal(){
+
+    input.type="text";
+    input.placeholder="";
 
     inputLine.classList.remove("hidden");
 
     print("");
-
     print("LOGIN SUCCESSFUL");
     print("");
     print("USER: RECOVERY-01");
