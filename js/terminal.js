@@ -42,7 +42,8 @@ function execute(commandLine) {
 
     const parts = commandLine.split(" ");
     const command = parts[0].toUpperCase();
-    const arg = parts.slice(1).join(" ");
+const args = parts.slice(1);
+const arg = args.join(" ");
 
     switch(command){
 
